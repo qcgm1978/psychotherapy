@@ -6,6 +6,10 @@
 
  - [本项目网页](https://qcgm1978.github.io/psychotherapy/)
 
+ ## 灵感来源
+
+ 本项目灵感来源于x.com, 但具体哪一条已找不到。[图片](public/ai.jpeg)
+ 
 ## 功能特性
 
 - 基于用户输入的心理问题生成专业分析内容
