@@ -12,9 +12,10 @@
   "halfwaySolutions": "Solutions for 'Giving Up Halfway'",
   "finalRuleTitle": "Ultimate Rule",
   "finalRuleText": "Don't seek a perfect beginning<br/>to find an effortless completion",
-  "englishQuote": "\"Don't seek a perfect beginning, and you will find an effortless completion\"",
+  "englishQuote": "Don't seek a perfect beginning, and you will find an effortless completion",
   "apiKeyButton": "Configure API Key",
   "modifyApiKeyButton": "Modify API Key",
   "fiveMinuteRule": "5 Minute Rule",
-  "fiveMinuteRuleDesc": "Just start for 5 minutes, you can stop anytime."
+  "fiveMinuteRuleDesc": "Just start for 5 minutes, you can stop anytime.",
+  "downloadAndroidApp": "Download Android App"
 }

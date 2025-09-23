@@ -225,6 +225,18 @@ function App() {
                 </button>
               </div>
               <div className="menu-divider"></div>
+              <div className="menu-item">
+                <a 
+                  href="https://github.com/qcgm1978/psychotherapy/releases" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="api-key-button"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {t('downloadAndroidApp')}
+                </a>
+              </div>
+              <div className="menu-divider"></div>
               <div className="language-selector">
                 <span>{t('languageSettings')}:</span>
                 <div className="language-options">
