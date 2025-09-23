@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { ApiKeyManager, hasApiKey, streamDefinition } from 'llm-service-provider'
 import './App.css'
+import { useI18n } from './lang/i18nContext'
 
 function App() {
+  const { t, language, setLanguage } = useI18n()
   const [isApiKeyManagerOpen, setIsApiKeyManagerOpen] = useState(false)
   const [apiKey, setApiKey] = useState('')
   const [topic, setTopic] = useState('告别拖延症')
@@ -34,8 +36,8 @@ function App() {
       '寻求情感支持'
     ]
   })
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   
-  // 新增：解释框状态管理
   const [tooltip, setTooltip] = useState<{
     isVisible: boolean
     content: string
@@ -51,6 +53,7 @@ function App() {
   const handleSaveApiKey = (key: string) => {
     setApiKey(key)
     setIsApiKeyManagerOpen(false)
+    setIsMenuOpen(false)
   }
 
   const generateContent = async () => {
@@ -64,7 +67,6 @@ function App() {
     const signal = controller.signal
 
     try {
-      // 生成结构化内容的提示
       const prompt = `生成关于"${topic}"的心理治疗内容，包含以下几个部分：
 1. 看得见的表面行为（3点）
 2. 深层心理根源（3点）
@@ -74,7 +76,7 @@ function App() {
 6. 应对半途而废的方案（3点）
 请以JSON格式输出，字段名分别为：visibleBehaviors, psychologicalRoots, triggers, emotionStrategies, completionCycle, halfwaySolutions`
 
-      const generator = streamDefinition(prompt, 'zh', undefined, undefined)
+      const generator = streamDefinition(prompt, language, undefined, undefined)
       let fullContent = ''
       
       for await (const chunk of generator) {
@@ -82,7 +84,6 @@ function App() {
         fullContent += chunk
       }
 
-      // 尝试解析JSON响应
       try {
         const parsedContent = JSON.parse(fullContent)
         setContentData(prev => ({
@@ -94,7 +95,6 @@ function App() {
           halfwaySolutions: parsedContent.halfwaySolutions || prev.halfwaySolutions
         }))
       } catch (jsonError) {
-        // 如果JSON解析失败，使用默认内容
         console.error('解析JSON失败:', jsonError)
       }
     } catch (error) {
@@ -104,7 +104,6 @@ function App() {
     }
   }
 
-  // 新增：显示解释框的函数
   const showTooltip = (e: React.MouseEvent, content: string) => {
     e.preventDefault()
     setTooltip({
@@ -115,7 +114,6 @@ function App() {
     })
   }
 
-  // 新增：隐藏解释框的函数
   const hideTooltip = () => {
     setTooltip(prev => ({ ...prev, isVisible: false }))
   }
@@ -129,33 +127,33 @@ function App() {
               type="text"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              placeholder="输入心理治疗主题"
+              placeholder={language === 'zh' ? '输入心理治疗主题' : 'Enter therapy topic'}
               className="topic-input"
-              title="点击生成按钮获取个性化心理治疗内容"
-              onClick={(e) => showTooltip(e, '输入你想探索的心理主题，例如：焦虑管理、情绪调节、压力缓解等')}
+              title={language === 'zh' ? '点击生成按钮获取个性化心理治疗内容' : 'Click generate button for personalized therapy content'}
+              onClick={(e) => showTooltip(e, language === 'zh' ? '输入你想探索的心理主题，例如：焦虑管理、情绪调节、压力缓解等' : 'Enter the psychological topic you want to explore, e.g.: anxiety management, emotional regulation, stress relief, etc.')}
             />
             <button 
               disabled={isGenerating}
               className="generate-button"
-              title="根据输入的主题生成心理治疗内容"
+              title={language === 'zh' ? '根据输入的主题生成心理治疗内容' : 'Generate therapy content based on the input topic'}
               onClick={(e) => {
                 const button = e.currentTarget as HTMLButtonElement
                 if (!isGenerating && button.contains(e.target as Node)) {
                   generateContent()
                 }
               }}
-              onMouseDown={(e) => showTooltip(e, '点击生成关于此主题的结构化心理治疗内容')}
+              onMouseDown={(e) => showTooltip(e, language === 'zh' ? '点击生成关于此主题的结构化心理治疗内容' : 'Click to generate structured therapy content on this topic')}
             >
-              {isGenerating ? '生成中...' : '生成内容'}
+              {isGenerating ? (language === 'zh' ? '生成中...' : 'Generating...') : t('generateButton')}
             </button>
           </div>
-          <p className="subtitle">心理治疗辅助系统</p>
-          <p className="description">深入冰山之下，探索你的行为阻停系统。</p>
+          <p className="subtitle">{t('systemTitle')}</p>
+          <p className="description">{language === 'zh' ? '深入冰山之下，探索你的行为阻停系统。' : 'Dive beneath the iceberg to explore your behavioral stopping system.'}</p>
         </header>
 
         <div className="content-grid">
-          <div className="card light-card" onClick={(e) => showTooltip(e, '冰山理论认为，我们能看到的行为只是问题的一小部分，就像冰山露出水面的部分')}>
-            <h2 className="card-title">冰山之上：看得见的表面行为</h2>
+          <div className="card light-card" onClick={(e) => showTooltip(e, language === 'zh' ? '冰山理论认为，我们能看到的行为只是问题的一小部分，就像冰山露出水面的部分' : 'Iceberg theory suggests that the behavior we can see is just a small part of the problem, like the part of an iceberg above water.')}>
+            <h2 className="card-title">{language === 'zh' ? '冰山之上：看得见的表面行为' : 'Above the Iceberg: Visible Behaviors'}</h2>
             <ul className="card-list">
               {contentData.visibleBehaviors.map((item, index) => (
                 <li key={index}>{item}</li>
@@ -163,8 +161,8 @@ function App() {
             </ul>
           </div>
 
-          <div className="card blue-card" onClick={(e) => showTooltip(e, '探索行为背后的深层心理动机，是解决问题的关键')}>
-            <h2 className="card-title">冰山之下：深层心理根源</h2>
+          <div className="card blue-card" onClick={(e) => showTooltip(e, language === 'zh' ? '探索行为背后的深层心理动机，是解决问题的关键' : 'Exploring the deep psychological motivations behind behaviors is key to solving problems.')}>
+            <h2 className="card-title">{language === 'zh' ? '冰山之下：深层心理根源' : 'Beneath the Iceberg: Deep Psychological Roots'}</h2>
             <ul className="card-list">
               {contentData.psychologicalRoots.map((item, index) => (
                 <li key={index}>{item}</li>
@@ -172,30 +170,30 @@ function App() {
             </ul>
           </div>
 
-          <div className="card light-card" onClick={(e) => showTooltip(e, '触发器是帮助你开始行动的关键策略，微小的开始往往能带来持续的行动')}>
-            <h2 className="card-title">构建「开始」的触发器</h2>
+          <div className="card light-card" onClick={(e) => showTooltip(e, language === 'zh' ? '触发器是帮助你开始行动的关键策略，微小的开始往往能带来持续的行动' : 'Triggers are key strategies to help you start taking action; small beginnings often lead to sustained action.')}>
+            <h2 className="card-title">{language === 'zh' ? '构建「开始」的触发器' : 'Building "Start" Triggers'}</h2>
             <div className="input-box">{contentData.triggers}</div>
           </div>
 
-          <div className="card blue-card" onClick={(e) => showTooltip(e, '情绪接纳是心理治疗的重要环节，允许自己感受负面情绪而不被其控制')}>
-            <h2 className="card-title">情绪接纳机制</h2>
+          <div className="card blue-card" onClick={(e) => showTooltip(e, language === 'zh' ? '情绪接纳是心理治疗的重要环节，允许自己感受负面情绪而不被其控制' : 'Emotional acceptance is an important part of therapy; allow yourself to feel negative emotions without being controlled by them.')}>
+            <h2 className="card-title">{t('emotionAcceptance')}</h2>
             <div className="input-box">{contentData.emotionStrategies}</div>
             <div className="timer-section">
               <span className="timer-text" onClick={(e) => {
                 e.stopPropagation()
-                showTooltip(e, '5分钟法则：告诉自己只做5分钟，降低开始的心理压力')
+                showTooltip(e, language === 'zh' ? '5分钟法则：告诉自己只做5分钟，降低开始的心理压力' : '5-minute rule: Tell yourself you only need to do it for 5 minutes to reduce the psychological pressure of starting.')
               }}>5 分钟法则</span>
               <p className="timer-description">Just start for 5 minutes, you can stop anytime.</p>
             </div>
           </div>
 
-          <div className="card light-card" onClick={(e) => showTooltip(e, '建立完成的内在循环能帮助你形成持续的行动习惯')}>
-            <h2 className="card-title">建立「完成」的内在循环</h2>
+          <div className="card light-card" onClick={(e) => showTooltip(e, language === 'zh' ? '建立完成的内在循环能帮助你形成持续的行动习惯' : 'Establishing an internal cycle of completion can help you form sustainable action habits.')}>
+            <h2 className="card-title">{language === 'zh' ? '建立「完成」的内在循环' : 'Establishing an Internal "Completion" Cycle'}</h2>
             <div className="input-box">{contentData.completionCycle}</div>
           </div>
 
-          <div className="card blue-card" onClick={(e) => showTooltip(e, '半途而废是常见的挑战，这些方案能帮助你重新回到轨道')}>
-            <h2 className="card-title">应对「半途而废」的方案</h2>
+          <div className="card blue-card" onClick={(e) => showTooltip(e, language === 'zh' ? '半途而废是常见的挑战，这些方案能帮助你重新回到轨道' : '半途而废是常见的挑战，这些方案能帮助你重新回到轨道')}>
+            <h2 className="card-title">{language === 'zh' ? '应对「半途而废」的方案' : 'Solutions for "Giving Up Halfway"'}</h2>
             <ul className="card-list">
               {contentData.halfwaySolutions.map((item, index) => (
                 <li key={index}>{item}</li>
@@ -204,19 +202,54 @@ function App() {
           </div>
         </div>
 
-        <div className="final-rule" onClick={(e) => showTooltip(e, '完美主义往往是行动的障碍，不完美的开始比完美的计划更重要')}>
-          <h2>终极法则</h2>
-          <p>不求完美地开始<br/>才能不费力地完成</p>
-          <p className="english-quote">"Don't seek a perfect beginning, and you will find an effortless completion"</p>
+        <div className="final-rule" onClick={(e) => showTooltip(e, t('finalRuleTooltip'))}>
+          <h2>{t('finalRuleTitle')}</h2>
+          <p dangerouslySetInnerHTML={{ __html: t('finalRuleText') }}></p>
+          <p className="english-quote">{t('englishQuote')}</p>
         </div>
 
-        <div className="api-config">
-          <button 
-            onClick={() => setIsApiKeyManagerOpen(true)}
-            onMouseDown={(e) => showTooltip(e, '配置或修改你的API密钥以使用LLM功能')}
-          >
-            {hasApiKey() ? '修改API密钥' : '配置API密钥'}
+        <div className="overflow-menu">
+          <button className="menu-button" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            ☰
           </button>
+          {isMenuOpen && (
+            <div className="menu-content">
+              <div className="menu-item">
+                <button 
+                  className="api-key-button"
+                  onClick={() => {
+                    setIsApiKeyManagerOpen(true)
+                  }}
+                >
+                  {t('apiKeySettings')}
+                </button>
+              </div>
+              <div className="menu-divider"></div>
+              <div className="language-selector">
+                <span>{t('languageSettings')}:</span>
+                <div className="language-options">
+                  <button 
+                    className={language === 'en' ? 'active' : ''}
+                    onClick={() => {
+                      setLanguage('en')
+                      setIsMenuOpen(false)
+                    }}
+                  >
+                    {t('englishLanguage')}
+                  </button>
+                  <button 
+                    className={language === 'zh' ? 'active' : ''}
+                    onClick={() => {
+                      setLanguage('zh')
+                      setIsMenuOpen(false)
+                    }}
+                  >
+                    {t('chineseLanguage')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -226,7 +259,6 @@ function App() {
         onClose={() => setIsApiKeyManagerOpen(false)}
       />
 
-      {/* 新增：解释框组件 */}
       {tooltip.isVisible && (
         <div 
           className="tooltip"

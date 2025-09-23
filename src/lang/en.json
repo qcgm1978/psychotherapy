@@ -1,0 +1,20 @@
+{
+  "title": "Psychotherapy Assistant System",
+  "description": "Dive below the iceberg, explore your behavior stopping system.",
+  "topicPlaceholder": "Enter psychotherapy topic",
+  "generateButton": "Generate Content",
+  "generating": "Generating...",
+  "visibleBehaviors": "Above the Iceberg: Visible Behaviors",
+  "psychologicalRoots": "Below the Iceberg: Deep Psychological Roots",
+  "triggers": "Building 'Start' Triggers",
+  "emotionStrategies": "Emotion Acceptance Mechanism",
+  "completionCycle": "Building 'Completion' Inner Cycle",
+  "halfwaySolutions": "Solutions for 'Giving Up Halfway'",
+  "finalRuleTitle": "Ultimate Rule",
+  "finalRuleText": "Don't seek a perfect beginning<br/>to find an effortless completion",
+  "englishQuote": "\"Don't seek a perfect beginning, and you will find an effortless completion\"",
+  "apiKeyButton": "Configure API Key",
+  "modifyApiKeyButton": "Modify API Key",
+  "fiveMinuteRule": "5 Minute Rule",
+  "fiveMinuteRuleDesc": "Just start for 5 minutes, you can stop anytime."
+}
