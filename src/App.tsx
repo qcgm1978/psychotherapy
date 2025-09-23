@@ -202,10 +202,10 @@ function App() {
           </div>
         </div>
 
-        <div className="final-rule" onClick={(e) => showTooltip(e, t('finalRuleTooltip'))}>
-          <h2>{t('finalRuleTitle')}</h2>
-          <p dangerouslySetInnerHTML={{ __html: t('finalRuleText') }}></p>
-          <p className="english-quote">{t('englishQuote')}</p>
+        <div className="final-rule" onClick={(e) => showTooltip(e, language === 'zh' ? '完美主义往往是行动的障碍，不完美的开始比完美的计划更重要' : 'Perfectionism is often an obstacle to action; an imperfect start is more important than a perfect plan.')}>
+          <h2>{language === 'zh' ? '终极法则' : 'Ultimate Rule'}</h2>
+          <p>{language === 'zh' ? '不求完美地开始<br/>才能不费力地完成' : 'Don\'t seek a perfect beginning<br/>and you will find an effortless completion'}</p>
+          <p className="english-quote">"Don't seek a perfect beginning, and you will find an effortless completion"</p>
         </div>
 
         <div className="overflow-menu">

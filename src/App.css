@@ -361,6 +361,7 @@ body {
   width: 100%;
   font-size: 14px;
   transition: all 0.2s ease;
+  color: #333;
 }
 
 .api-key-button:hover {
@@ -394,6 +395,7 @@ body {
   cursor: pointer;
   text-align: left;
   transition: all 0.2s ease;
+  color: #333;
 }
 
 .language-options button:hover {

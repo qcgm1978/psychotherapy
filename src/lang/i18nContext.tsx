@@ -5,27 +5,45 @@ import zhTranslations from './zh.json';
 export type Language = 'en' | 'zh';
 
 export interface Translations {
-  systemTitle: string;
-  systemDescription: string;
-  apiKeyPlaceholder: string;
-  saveButton: string;
+  title?: string;
+  description?: string;
+  topicPlaceholder?: string;
   generateButton: string;
-  clearButton: string;
-  shareButton: string;
-  copyButton: string;
-  settingsButton: string;
+  generating?: string;
+  visibleBehaviors?: string;
+  psychologicalRoots?: string;
+  triggers?: string;
+  emotionStrategies?: string;
+  completionCycle?: string;
+  halfwaySolutions?: string;
+  finalRuleTitle?: string;
+  finalRuleText?: string;
+  englishQuote?: string;
+  apiKeyButton?: string;
+  modifyApiKeyButton?: string;
+  fiveMinuteRule?: string;
+  fiveMinuteRuleDesc?: string;
+  systemTitle?: string;
+  systemDescription?: string;
+  apiKeyPlaceholder?: string;
+  saveButton?: string;
+  clearButton?: string;
+  shareButton?: string;
+  copyButton?: string;
+  settingsButton?: string;
   apiKeySettings: string;
   languageSettings: string;
   englishLanguage: string;
   chineseLanguage: string;
-  confirmButton: string;
-  cancelButton: string;
+  confirmButton?: string;
+  cancelButton?: string;
   emotionAcceptance: string;
-  positiveAffirmation: string;
-  cognitiveRestructuring: string;
-  mindfulnessExercise: string;
-  problemSolvingApproach: string;
-  finalRule: string;
+  positiveAffirmation?: string;
+  cognitiveRestructuring?: string;
+  mindfulnessExercise?: string;
+  problemSolvingApproach?: string;
+  finalRule?: string;
+  finalRuleTooltip?: string;
 }
 
 interface I18nContextType {
@@ -34,7 +52,7 @@ interface I18nContextType {
   t: (key: keyof Translations) => string;
 }
 
-const translations: Record<Language, Translations> = {
+const translations: Record<Language, Partial<Translations>> = {
   en: enTranslations,
   zh: zhTranslations
 };
