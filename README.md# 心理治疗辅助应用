@@ -1,0 +1,65 @@
+这是一个基于React的心理治疗辅助应用，帮助用户了解和应对各种心理问题，如拖延症等。
+
+## 在线访问
+
+项目已部署到GitHub Pages，可以通过以下链接访问：
+
+[https://qcgm1978.github.io/psychotherapy](https://qcgm1978.github.io/psychotherapy)
+
+## 功能特性
+
+- 基于用户输入的心理问题生成专业分析内容
+- 遵循心理学"冰山理论"的结构化内容展示
+- 包含可见行为、心理根源、触发因素等多维度分析
+- 提供实用的情绪管理策略和解决方法
+- 响应式设计，支持移动端访问
+
+## 技术栈
+
+- React 18
+- TypeScript
+- Vite
+- llm-service-provider
+- Capacitor（支持Android应用打包）
+
+## 本地开发
+
+```bash
+# 安装依赖
+cnpm install
+
+# 启动开发服务器
+cnpm run dev
+
+# 构建生产版本
+cnpm run build
+
+# 预览生产版本
+cnpm run preview
+```
+
+## 部署说明
+
+### GitHub Pages部署
+
+```bash
+# 自动构建并部署到GitHub Pages
+cnpm run deploy
+```
+
+### Android应用打包
+
+```bash
+# 构建Web应用
+cnpm run build
+
+# 同步到Android平台
+npx cap sync android
+
+# 打开Android Studio
+npx cap open android
+```
+
+## 许可证
+
+MIT
